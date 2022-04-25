@@ -1,42 +1,41 @@
-# Advanced Sample Hardhat Project
+# lending-contract
+ERC20 Token Lending
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+## Overview
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+A simple decentralized application that allows users to borrow tokens against a collateral in ETH.
+When the loan is repaid (plus interest), the collateral is returned to the user. Users can only have one active loan at a time.
+Loans have a 30 day limit.
 
-Try running some of the following tasks:
+## Requirements
+1. Create an ERC20 token with 18 decimal places to serve as the token that can be borrowed.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
+2. Create a Lending functionality (contract(s)) that allows:
+- Users to borrow tokens sending ETH as collateral (define a custom ETH-to-token ratio for lending)
+- Users to repay their loans with interest (interest calculation should be very simple)
+- Lending contract(s) owner to claim collateral if loan is not paid off in time
+
+3. Create a minimalistic frontend service that integrates with the Lending contract(s) using web3.js/ethers.js, Moralis API or other library of your choice. This service should allow:
+- Users to request to borrow tokens
+- Users to repay loan
+- Lending contract(s) owner to see total number of loans + total number of tokens currently borrowed to all users
+
+## Configuration & Deployment
+### Installation
+```
+npm install
+```
+
+### Deployment
+```
+npx hardhat --network [NETWORK_NAME] deploy.js
+```
+
+### Test
+```
 npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.js
-node scripts/deploy.js
-npx eslint '**/*.js'
-npx eslint '**/*.js' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
 ```
 
-# Etherscan verification
+You can test the features by using `npx hardhat node` and `npx hardhat console` if you're familiar with hardhat console.
 
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
-
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
-
-```shell
-hardhat run --network ropsten scripts/deploy.js
-```
-
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
-
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
+To see the coverage report, run `npx hardhat coverage`.
